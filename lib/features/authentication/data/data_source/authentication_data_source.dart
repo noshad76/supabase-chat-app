@@ -1,22 +1,22 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthenticationDataSource {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final _supabase = Supabase.instance.client;
 
   //signin with google
-  Future<UserCredential> signIn(String email, String password) async {
-    return await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
+  Future<AuthResponse> signIn(String email, String password) async {
+    return await _supabase.auth
+        .signInWithPassword(password: password, email: email);
   }
 
   //singup
-  Future<UserCredential> signUp(String email, String password) async {
-    return await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
+  Future<AuthResponse> signUp(String email, String password) async {
+    return await _supabase.auth.signUp(password: password, email: email);
   }
 
   //logout
   void logOut() async {
-    await _firebaseAuth.signOut();
+    await _supabase.auth.signOut();
   }
 }
