@@ -1,5 +1,6 @@
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/authentication_bloc.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/signup_status.dart';
+import 'package:chat_app/features/authentication/presentation/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -126,8 +127,8 @@ class _SignupPageState extends State<SignupPage> {
                           if (state.signupStatus is SignupError) {
                             SignupError signupStatus =
                                 state.signupStatus as SignupError;
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(signupStatus.error)));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(signupStatus.error)));
                           }
                         },
                         builder: (context, state) {
@@ -172,7 +173,13 @@ class _SignupPageState extends State<SignupPage> {
                                   MaterialStatePropertyAll(Size(100.w, 6.h)),
                               backgroundColor: MaterialStatePropertyAll(
                                   Theme.of(context).cardColor)),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return LoginPage();
+                              },
+                            ));
+                          },
                           child: Text(
                             'Do you have an account ? Login',
                             style: TextStyle(

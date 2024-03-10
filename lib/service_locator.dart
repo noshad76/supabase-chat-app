@@ -6,12 +6,16 @@ import 'package:chat_app/features/authentication/domain/usecases/logout_usecase.
 import 'package:chat_app/features/authentication/domain/usecases/signup_usecase.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 var instance = GetIt.instance;
 
 Future<void> initializeLocator() async {
-  instance
-      .registerSingleton<AuthenticationDataSource>(AuthenticationDataSource());
+  //authentication service
+
+  final supabaseClient = Supabase.instance.client;
+  instance.registerSingleton<AuthenticationDataSource>(
+      AuthenticationDataSource(supabaseClient: supabaseClient));
 
   instance.registerSingleton<AuthenticationRepository>(
       AuthenticationRepositoryImpl(authenticationDataSource: instance()));
@@ -23,8 +27,11 @@ Future<void> initializeLocator() async {
   instance.registerSingleton<SignUpUsecase>(
       SignUpUsecase(authenticationRepository: instance()));
 
-  instance.registerSingleton<AuthenticationBloc>(AuthenticationBloc(
+  instance.registerSingleton<AuthenticationBloc>(
+    AuthenticationBloc(
       loginUsecase: instance(),
       logoutUsecase: instance(),
-      signUpUsecase: instance()));
+      signUpUsecase: instance(),
+    ),
+  );
 }
