@@ -2,7 +2,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthenticationDataSource {
-
   SupabaseClient supabaseClient;
   AuthenticationDataSource({
     required this.supabaseClient,
@@ -16,7 +15,8 @@ class AuthenticationDataSource {
 
   //singup
   Future<AuthResponse> signUp(String email, String password) async {
-    return await supabaseClient.auth.signUp(password: password, email: email);
+    return await supabaseClient.auth
+        .signUp(password: password, email: email, data: {"username": email});
   }
 
   //logout

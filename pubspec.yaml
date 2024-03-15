@@ -17,6 +17,7 @@ dependencies:
   get_it: ^7.6.7
   responsive_sizer: ^3.3.0+1
   supabase_flutter: ^2.3.4
+  timeago: ^3.6.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -25,4 +26,5 @@ dev_dependencies:
 flutter:
   assets:
     - assets/illustrations/login.png
+    - assets/images/profile.jpg
   uses-material-design: true

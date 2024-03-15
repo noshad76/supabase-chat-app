@@ -1,6 +1,6 @@
+import 'package:chat_app/core/pages/home_page.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/authentication_bloc.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/signup_status.dart';
-import 'package:chat_app/features/authentication/presentation/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -176,7 +176,7 @@ class _SignupPageState extends State<SignupPage> {
                           onPressed: () {
                             Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
-                                return LoginPage();
+                                return HomePage();
                               },
                             ));
                           },

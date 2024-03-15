@@ -1,3 +1,4 @@
+import 'package:chat_app/core/pages/home_page.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/authentication_bloc.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/login_status.dart';
 import 'package:chat_app/features/authentication/presentation/screens/signup_page.dart';
@@ -104,6 +105,12 @@ class _SignupPageState extends State<LoginPage> {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(
                                     "you are logged in with \n ${loginDone.userCredential.user!.email}")));
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(
+                              builder: (context) {
+                                return HomePage();
+                              },
+                            ));
                           }
                           if (state.loginStatus is LoginError) {
                             LoginError signupStatus =
