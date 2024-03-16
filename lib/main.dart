@@ -2,6 +2,7 @@ import 'package:chat_app/core/resources/api_keys.dart';
 import 'package:chat_app/core/theme/theme.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/authentication_bloc.dart';
 import 'package:chat_app/features/authentication/presentation/screens/signup_page.dart';
+import 'package:chat_app/features/contacts/presentation/bloc/bloc/contacts_bloc.dart';
 import 'package:chat_app/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await Supabase.initialize(
+  await Supabase.initialize(
     url: projectUrl,
     anonKey: projectApi,
   );
@@ -28,6 +29,9 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBloc>(
+          create: (context) => instance(),
+        ),
+        BlocProvider<ContactsBloc>(
           create: (context) => instance(),
         )
       ],

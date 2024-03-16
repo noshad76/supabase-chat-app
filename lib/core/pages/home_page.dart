@@ -1,5 +1,8 @@
+import 'package:chat_app/features/contacts/domain/entity/profile_entity.dart';
+import 'package:chat_app/features/contacts/presentation/bloc/bloc/contacts_bloc.dart';
+import 'package:chat_app/features/contacts/presentation/widgets/contactsListTile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class HomePage extends StatelessWidget {
@@ -72,7 +75,7 @@ class HomePage extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(16, 0, 0, 0),
+                      color: const Color.fromARGB(16, 0, 0, 0),
                       borderRadius: BorderRadius.circular(20)),
                   width: 85.w,
                   height: 5.h,
@@ -87,16 +90,16 @@ class HomePage extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         color: Theme.of(context).primaryColor),
-                    tabs: [
-                      const Text(
+                    tabs: const [
+                      Text(
                         'All chats',
                         style: TextStyle(fontSize: 15),
                       ),
-                      const Text(
+                      Text(
                         'Groups',
                         style: TextStyle(fontSize: 15),
                       ),
-                      const Text(
+                      Text(
                         'Contacts',
                         style: TextStyle(fontSize: 15),
                       )
@@ -109,46 +112,84 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 74.8.h,
                   width: 85.w,
-                  child: TabBarView(
-                    children: <Widget>[
-                      ListView.separated(
-                        physics: BouncingScrollPhysics(),
-                        clipBehavior: Clip.none,
-                        itemCount: 20,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: 4.h,
-                          );
-                        },
-                        itemBuilder: (context, index) {
-                          return ContactViewTiles();
-                        },
-                      ),
-                      ListView.separated(
-                        clipBehavior: Clip.none,
-                        itemCount: 20,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: 4.h,
-                          );
-                        },
-                        itemBuilder: (context, index) {
-                          return ContactViewTiles();
-                        },
-                      ),
-                      ListView.separated(
-                        clipBehavior: Clip.none,
-                        itemCount: 20,
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: 4.h,
-                          );
-                        },
-                        itemBuilder: (context, index) {
-                          return ContactViewTiles();
-                        },
-                      ),
-                    ],
+                  child: BlocBuilder<ContactsBloc, ContactsState>(
+                    builder: (context, state) {
+                      if (state is ContactsLoading) {
+                        return const TabBarView(children: [
+                          Center(child: CircularProgressIndicator()),
+                          Center(child: CircularProgressIndicator()),
+                          Center(child: CircularProgressIndicator())
+                        ]);
+                      } else if (state is ContactsDone) {
+                        List<ProfileEntity> contactsDone = state.profiles;
+
+                        return TabBarView(
+                          children: <Widget>[
+                            ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              clipBehavior: Clip.none,
+                              itemCount: contactsDone.length,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: 4.h,
+                                );
+                              },
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {},
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(30),
+                                      topLeft: Radius.circular(30)),
+                                  child: ContactViewTiles(
+                                    lastOnline: '',
+                                    subtilte: '',
+                                    username: contactsDone[index].username,
+                                  ),
+                                );
+                              },
+                            ),
+                            ListView.separated(
+                              clipBehavior: Clip.none,
+                              itemCount: contactsDone.length,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: 4.h,
+                                );
+                              },
+                              itemBuilder: (context, index) {
+                                return ContactViewTiles(
+                                  lastOnline: '',
+                                  subtilte: '',
+                                  username: contactsDone[index].username,
+                                );
+                              },
+                            ),
+                            ListView.separated(
+                              clipBehavior: Clip.none,
+                              itemCount: contactsDone.length,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: 4.h,
+                                );
+                              },
+                              itemBuilder: (context, index) {
+                                return ContactViewTiles(
+                                  lastOnline: '',
+                                  subtilte: '',
+                                  username: contactsDone[index].username,
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const TabBarView(children: [
+                          Center(child: CircularProgressIndicator()),
+                          Center(child: CircularProgressIndicator()),
+                          Center(child: CircularProgressIndicator())
+                        ]);
+                      }
+                    },
                   ),
                 ),
               ],
@@ -166,64 +207,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      ),
-    );
-  }
-}
-
-class ContactViewTiles extends StatelessWidget {
-  const ContactViewTiles({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 85.w,
-      height: 7.h,
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 27,
-            backgroundImage: AssetImage(
-              'assets/images/profile.jpg',
-            ),
-          ),
-          SizedBox(
-            width: 3.w,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Amir Hosein Noshad',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-              ),
-              Text('this is Subtitle',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black45,
-                      fontSize: 13))
-            ],
-          ),
-          Spacer(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '09:38 AM',
-                style: TextStyle(
-                    color: Colors.black26,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 3.h,
-              )
-            ],
-          )
-        ],
       ),
     );
   }

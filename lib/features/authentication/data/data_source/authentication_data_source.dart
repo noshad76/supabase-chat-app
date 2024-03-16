@@ -15,8 +15,10 @@ class AuthenticationDataSource {
 
   //singup
   Future<AuthResponse> signUp(String email, String password) async {
-    return await supabaseClient.auth
-        .signUp(password: password, email: email, data: {"username": email});
+    return await supabaseClient.auth.signUp(
+      password: password,
+      email: email,
+    );
   }
 
   //logout

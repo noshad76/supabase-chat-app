@@ -2,6 +2,7 @@ import 'package:chat_app/core/pages/home_page.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/authentication_bloc.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/login_status.dart';
 import 'package:chat_app/features/authentication/presentation/screens/signup_page.dart';
+import 'package:chat_app/features/contacts/presentation/bloc/bloc/contacts_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -105,16 +106,18 @@ class _SignupPageState extends State<LoginPage> {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(
                                     "you are logged in with \n ${loginDone.userCredential.user!.email}")));
+                            BlocProvider.of<ContactsBloc>(context)
+                                .add(GetContacts());
                             Navigator.pushReplacement(context,
                                 MaterialPageRoute(
                               builder: (context) {
-                                return HomePage();
+                                return const HomePage();
                               },
                             ));
                           }
                           if (state.loginStatus is LoginError) {
                             LoginError signupStatus =
-                                state.signupStatus as LoginError;
+                                state.loginStatus as LoginError;
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(signupStatus.error)));
                           }

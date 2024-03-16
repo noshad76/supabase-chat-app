@@ -39,7 +39,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
       userCredential = await authenticationDataSource.signUp(email, password);
       return DataSuccess(userCredential);
     } catch (e) {
-      return DataFailed('signup faild');
+      return DataFailed(e.toString());
     }
   }
 }
