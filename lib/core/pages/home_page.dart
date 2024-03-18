@@ -1,6 +1,7 @@
+import 'package:chat_app/features/chat/presentation/screens/chat_page.dart';
 import 'package:chat_app/features/contacts/domain/entity/profile_entity.dart';
 import 'package:chat_app/features/contacts/presentation/bloc/bloc/contacts_bloc.dart';
-import 'package:chat_app/features/contacts/presentation/widgets/contactsListTile.dart';
+import 'package:chat_app/features/contacts/presentation/widgets/contacts_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -136,8 +137,14 @@ class HomePage extends StatelessWidget {
                               },
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                  onTap: () {},
-                                  borderRadius: BorderRadius.only(
+                                  onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return const ChatPage();
+                                      },
+                                    ));
+                                  },
+                                  borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(30),
                                       topLeft: Radius.circular(30)),
                                   child: ContactViewTiles(

@@ -18,6 +18,7 @@ var instance = GetIt.instance;
 Future<void> initializeLocator() async {
   final supabaseClient = Supabase.instance.client;
 
+  instance.registerSingleton<SupabaseClient>(supabaseClient);
   //authentication service
 
   instance.registerSingleton<AuthenticationDataSource>(

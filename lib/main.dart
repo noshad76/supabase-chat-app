@@ -43,7 +43,7 @@ class MainApp extends StatelessWidget {
             theme: ThemeClass.lightTheme,
             darkTheme: ThemeClass.darkTheme,
             themeMode: ThemeMode.system,
-            home: SignupPage(),
+            home: const SignupPage(),
           );
         },
       ),

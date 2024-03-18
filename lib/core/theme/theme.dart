@@ -5,7 +5,7 @@ class ThemeClass {
   Color blackBackgroundColor = const Color.fromARGB(255, 42, 42, 42);
 
   Color chatBackgroundColor = const Color(0xff584CD6);
-  Color chatBackgroundColorW5 = Color.fromARGB(255, 148, 142, 211);
+  Color chatBackgroundColorW5 = const Color.fromARGB(255, 148, 142, 211);
 
   static ThemeData lightTheme = ThemeData(
       scaffoldBackgroundColor: _themeClass.whiteBackgroundColor,

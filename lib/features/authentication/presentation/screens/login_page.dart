@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _SignupPageState();
@@ -29,7 +29,6 @@ class _SignupPageState extends State<LoginPage> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Form(
-            autovalidateMode: AutovalidateMode.always,
             key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -168,7 +167,7 @@ class _SignupPageState extends State<LoginPage> {
                             Navigator.pushReplacement(context,
                                 MaterialPageRoute(
                               builder: (context) {
-                                return SignupPage();
+                                return const SignupPage();
                               },
                             ));
                           },

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ContactViewTiles extends StatelessWidget {
@@ -15,7 +14,7 @@ class ContactViewTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 85.w,
       height: 7.h,
       child: Row(
@@ -38,7 +37,7 @@ class ContactViewTiles extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
               const Text('this is Subtitle',
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.black45,
                       fontSize: 13))
