@@ -1,13 +1,27 @@
+import 'package:chat_app/features/chat/presentation/bloc/bloc/message_bloc.dart';
 import 'package:chat_app/features/chat/presentation/screens/chat_page.dart';
 import 'package:chat_app/features/contacts/domain/entity/profile_entity.dart';
 import 'package:chat_app/features/contacts/presentation/bloc/bloc/contacts_bloc.dart';
 import 'package:chat_app/features/contacts/presentation/widgets/contacts_list_tile.dart';
+import 'package:chat_app/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void dispose() {
+    instance<MessageBloc>().close();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,9 +152,11 @@ class HomePage extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () {
+                                    BlocProvider.of<MessageBloc>(context)
+                                        .add(GetMessages());
                                     Navigator.push(context, MaterialPageRoute(
                                       builder: (context) {
-                                        return const ChatPage();
+                                        return ChatPage();
                                       },
                                     ));
                                   },

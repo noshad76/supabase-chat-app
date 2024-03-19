@@ -5,6 +5,12 @@ import 'package:chat_app/features/authentication/domain/usecases/login_usecase.d
 import 'package:chat_app/features/authentication/domain/usecases/logout_usecase.dart';
 import 'package:chat_app/features/authentication/domain/usecases/signup_usecase.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/authentication_bloc.dart';
+import 'package:chat_app/features/chat/data/data_source/remote/message_data_source.dart';
+import 'package:chat_app/features/chat/data/repository/message_repository_impl.dart';
+import 'package:chat_app/features/chat/domain/repository/message_repository.dart';
+import 'package:chat_app/features/chat/domain/usecase/get_message_usecase.dart';
+import 'package:chat_app/features/chat/domain/usecase/send_message_usecase.dart';
+import 'package:chat_app/features/chat/presentation/bloc/bloc/message_bloc.dart';
 import 'package:chat_app/features/contacts/data/data_source/remote/contacts_data_source.dart';
 import 'package:chat_app/features/contacts/data/repository/profiles_repository_impl.dart';
 import 'package:chat_app/features/contacts/domain/repository/profiles_repository.dart';
@@ -54,4 +60,19 @@ Future<void> initializeLocator() async {
 
   instance.registerSingleton<ContactsBloc>(
       ContactsBloc(getProfilesUsecase: instance()));
+  //message chat service
+
+  instance.registerSingleton<MessageDataSource>(
+      MessageDataSource(supabaseClient: supabaseClient));
+
+  instance.registerSingleton<MessageRepository>(
+      MessageRepositoryImpl(messageDataSource: instance()));
+
+  instance.registerSingleton<GetMessageUsecase>(
+      GetMessageUsecase(messageRepository: instance()));
+  instance.registerSingleton<SendMessageUsecase>(
+      SendMessageUsecase(messageRepository: instance()));
+
+  instance.registerSingleton<MessageBloc>(MessageBloc(
+      getMessageUsecase: instance(), sendMessageUsecase: instance()));
 }

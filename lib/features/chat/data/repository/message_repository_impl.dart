@@ -23,4 +23,14 @@ class MessageRepositoryImpl extends MessageRepository {
       yield DataFailed('Failed to fetch messages: $e');
     }
   }
+
+  @override
+ DataState sendMessage(String messageContent) {
+    try {
+      messageDataSource.sendMessage(messageContent);
+      return const DataSuccess(true);
+    } catch (e) {
+      return const DataFailed('faild to send message');
+    }
+  }
 }

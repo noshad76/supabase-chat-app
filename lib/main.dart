@@ -2,6 +2,7 @@ import 'package:chat_app/core/resources/api_keys.dart';
 import 'package:chat_app/core/theme/theme.dart';
 import 'package:chat_app/features/authentication/presentation/bloc/bloc/authentication_bloc.dart';
 import 'package:chat_app/features/authentication/presentation/screens/signup_page.dart';
+import 'package:chat_app/features/chat/presentation/bloc/bloc/message_bloc.dart';
 import 'package:chat_app/features/contacts/presentation/bloc/bloc/contacts_bloc.dart';
 import 'package:chat_app/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,9 @@ class MainApp extends StatelessWidget {
           create: (context) => instance(),
         ),
         BlocProvider<ContactsBloc>(
+          create: (context) => instance(),
+        ),
+        BlocProvider<MessageBloc>(
           create: (context) => instance(),
         )
       ],

@@ -11,14 +11,22 @@ class MessageDataSource {
     required this.supabaseClient,
   });
 
-  Stream<List<MessageEntity>> getMessages() async*{
+  Stream<List<MessageEntity>> getMessages() async* {
     final myUserId = supabaseClient.auth.currentUser!.id;
-     yield* supabaseClient
+    yield* supabaseClient
         .from('messages')
         .stream(primaryKey: ['id'])
         .order('created_at')
         .map((maps) => maps
             .map((map) => MessageModel.fromMap(map: map, myUserId: myUserId))
             .toList());
+  }
+
+  Future sendMessage(String messageContent) async {
+    final myUserId = supabaseClient.auth.currentUser!.id;
+    await supabaseClient.from('messages').insert({
+      'profile_id': myUserId,
+      'content': messageContent,
+    });
   }
 }

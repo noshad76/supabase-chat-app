@@ -3,4 +3,6 @@ import 'package:chat_app/features/chat/domain/entity/message_entity.dart';
 
 abstract class MessageRepository {
   Stream<DataState<List<MessageEntity>>> getMessages();
+
+ DataState sendMessage(String messageContent);
 }

@@ -1,27 +1,21 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'message_bloc.dart';
 
-abstract class MessageState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-class MessageLoading extends MessageState {}
-
-class MessageDone extends MessageState {
-  final List<MessageEntity> messages;
-  MessageDone({
-    required this.messages,
+class MessageState extends Equatable {
+  final GetMessageStatus? getMessageStatus;
+  final SendMessageStatus? sendMessageStatus;
+  const MessageState({
+    this.getMessageStatus,
+    this.sendMessageStatus,
   });
-  @override
-  List<Object> get props => [messages];
-}
 
-class MessageFaild extends MessageState {
- final String error;
-  MessageFaild({
-    required this.error,
-  });
+  MessageState copyWith(GetMessageStatus? newGetMessageStatus,
+      SendMessageStatus? newSendMessageStatus) {
+    return MessageState(
+        getMessageStatus: newGetMessageStatus ?? getMessageStatus,
+        sendMessageStatus: newSendMessageStatus ?? sendMessageStatus);
+  }
+
   @override
-  List<Object> get props => [error];
+  List<Object> get props => [getMessageStatus!,sendMessageStatus!];
 }
