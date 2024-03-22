@@ -1,4 +1,4 @@
-
+import 'package:chat_app/core/resources/data_state.dart';
 import 'package:chat_app/features/authentication/domain/repository/authentication_repository.dart';
 
 class LogoutUsecase {
@@ -6,7 +6,7 @@ class LogoutUsecase {
   LogoutUsecase({
     required this.authenticationRepository,
   });
-  call(param) {
-    authenticationRepository.logoOut();
+  Future<DataState<dynamic>> call(param) {
+    return authenticationRepository.logoOut();
   }
 }

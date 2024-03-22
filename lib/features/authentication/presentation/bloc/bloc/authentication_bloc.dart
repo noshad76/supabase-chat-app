@@ -42,9 +42,9 @@ class AuthenticationBloc
     });
 
     /// logout event
-    on<LogOutEvent>((event, emit) {
+    on<LogOutEvent>((event, emit) async {
       emit(state.copyWith(newlogoutStatus: LogoutLoading()));
-      DataState dataState = logoutUsecase(NoParam());
+      DataState dataState = await logoutUsecase.call(NoParam());
       if (dataState is DataSuccess) {
         emit(state.copyWith(newlogoutStatus: LogoutDone()));
       } else {

@@ -1,3 +1,5 @@
+import 'package:chat_app/features/authentication/presentation/bloc/bloc/authentication_bloc.dart';
+import 'package:chat_app/features/authentication/presentation/screens/login_page.dart';
 import 'package:chat_app/features/chat/presentation/bloc/bloc/message_bloc.dart';
 import 'package:chat_app/features/chat/presentation/screens/chat_page.dart';
 import 'package:chat_app/features/contacts/domain/entity/profile_entity.dart';
@@ -68,7 +70,16 @@ class _HomePageState extends State<HomePage> {
                                 color: Theme.of(context).primaryColor,
                               )),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              BlocProvider.of<AuthenticationBloc>(context)
+                                  .add(LogOutEvent());
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                builder: (context) {
+                                  return LoginPage();
+                                },
+                              ));
+                            },
                             icon: Icon(
                               Icons.more_vert,
                               color: Theme.of(context).primaryColor,
