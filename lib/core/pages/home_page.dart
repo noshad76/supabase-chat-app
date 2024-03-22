@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.of(context)
                                   .pushReplacement(MaterialPageRoute(
                                 builder: (context) {
-                                  return LoginPage();
+                                  return const LoginPage();
                                 },
                               ));
                             },
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                                         .add(GetMessages());
                                     Navigator.push(context, MaterialPageRoute(
                                       builder: (context) {
-                                        return ChatPage();
+                                        return const ChatPage();
                                       },
                                     ));
                                   },

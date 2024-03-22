@@ -23,7 +23,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
         getMessageUsecase.call(),
         onData: (data) {
           if (data is DataSuccess) {
-            print('data success ${data.data!.length}');
             return state.copyWith(
                 newGetMessageStatus: GetMessageDone(messages: data.data!));
           } else {

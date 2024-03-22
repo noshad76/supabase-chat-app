@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ChatPage extends StatefulWidget {
-  ChatPage({super.key});
+ const ChatPage({super.key});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -145,12 +145,11 @@ class _ChatPageState extends State<ChatPage> {
                           if (state.getMessageStatus is GetMessageDone) {
                             GetMessageDone messageDone =
                                 state.getMessageStatus as GetMessageDone;
-                            print(messageDone.messages.length);
                             return Expanded(
                               child: Align(
                                 alignment: Alignment.topCenter,
                                 child: Padding(
-                                  padding: EdgeInsets.all(20),
+                                  padding: const EdgeInsets.all(20),
                                   child: ListView.separated(
                                       shrinkWrap: true,
                                       controller: scrollController,
@@ -162,7 +161,7 @@ class _ChatPageState extends State<ChatPage> {
                                                   ? Alignment.centerRight
                                                   : Alignment.centerLeft,
                                           child: ConstrainedBox(
-                                            constraints: BoxConstraints(
+                                            constraints: const BoxConstraints(
                                                 minHeight: 30,
                                                 minWidth: 30,
                                                 maxWidth: 300),
@@ -171,7 +170,7 @@ class _ChatPageState extends State<ChatPage> {
                                                 color: messageDone
                                                         .messages[index].isMine
                                                     ? Colors.white
-                                                    : Color.fromARGB(
+                                                    : const Color.fromARGB(
                                                         255, 123, 112, 238),
                                                 borderRadius: messageDone
                                                         .messages[index].isMine
@@ -192,7 +191,7 @@ class _ChatPageState extends State<ChatPage> {
                                                                 25)),
                                               ),
                                               child: Padding(
-                                                padding: EdgeInsets.symmetric(
+                                                padding: const EdgeInsets.symmetric(
                                                     horizontal: 20,
                                                     vertical: 10),
                                                 child: Text(
@@ -229,8 +228,8 @@ class _ChatPageState extends State<ChatPage> {
                               ),
                             );
                           } else {
-                            return Expanded(
-                              child: const Center(
+                            return const Expanded(
+                              child: Center(
                                   child: CircularProgressIndicator(
                                 color: Colors.white,
                               )),
