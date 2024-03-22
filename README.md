@@ -39,6 +39,9 @@ To run this application locally, follow these steps:
 
 ![image](https://github.com/noshad76/supabase-chat-app/assets/118007681/5c73d881-6da0-49c0-a71d-d155dbe7b327)
 ![image](https://github.com/noshad76/supabase-chat-app/assets/118007681/5a9ffec2-8fd3-4863-8fd7-98c5d13e08a9)
+![image](https://github.com/noshad76/supabase-chat-app/assets/118007681/b0b062b9-5a17-438d-81b7-154cc7afcb7b)
+![image](https://github.com/noshad76/supabase-chat-app/assets/118007681/50d9c41f-5f01-4286-b07a-744b9e6556b1)
+
 
 
 
