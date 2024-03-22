@@ -9,6 +9,7 @@ abstract class MessageEvent extends Equatable {
 }
 
 class GetMessages extends MessageEvent {}
+class GetMessagesChanged extends MessageEvent {}
 
 class SendMessage extends MessageEvent {
  final String messageContent;

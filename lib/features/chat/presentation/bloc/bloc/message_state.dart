@@ -2,20 +2,20 @@
 part of 'message_bloc.dart';
 
 class MessageState extends Equatable {
-  final GetMessageStatus? getMessageStatus;
-  final SendMessageStatus? sendMessageStatus;
+  final GetMessageStatus getMessageStatus;
+  final SendMessageStatus sendMessageStatus;
   const MessageState({
-    this.getMessageStatus,
-    this.sendMessageStatus,
+    required this.getMessageStatus,
+    required this.sendMessageStatus,
   });
 
-  MessageState copyWith(GetMessageStatus? newGetMessageStatus,
-      SendMessageStatus? newSendMessageStatus) {
+   MessageState copyWith({GetMessageStatus? newGetMessageStatus,
+      SendMessageStatus? newSendMessageStatus}) {
     return MessageState(
         getMessageStatus: newGetMessageStatus ?? getMessageStatus,
         sendMessageStatus: newSendMessageStatus ?? sendMessageStatus);
   }
 
   @override
-  List<Object> get props => [getMessageStatus!,sendMessageStatus!];
+  List<Object> get props => [getMessageStatus,sendMessageStatus];
 }

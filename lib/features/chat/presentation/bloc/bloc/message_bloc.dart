@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/core/resources/data_state.dart';
-import 'package:chat_app/features/chat/domain/entity/message_entity.dart';
 import 'package:chat_app/features/chat/domain/usecase/get_message_usecase.dart';
 import 'package:chat_app/features/chat/domain/usecase/send_message_usecase.dart';
 import 'package:chat_app/features/chat/presentation/bloc/bloc/get_message_status.dart';
@@ -19,27 +18,30 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
             getMessageStatus: GetMessageLoading(),
             sendMessageStatus: MessageInitial())) {
     on<GetMessages>((event, emit) async {
-      Stream<DataState<List<MessageEntity>>> messages =
-          getMessageUsecase.call();
-      await for (final dataState in messages) {
-        if (dataState is DataSuccess) {
-          emit(MessageState(
-              getMessageStatus: GetMessageDone(messages: dataState.data!)));
-        } else if (dataState is DataFailed) {
-          emit(MessageState(
-              getMessageStatus: GetMessageFaild(error: dataState.error!)));
-        }
-      }
+      emit(state.copyWith(newGetMessageStatus: GetMessageLoading()));
+      await emit.forEach(
+        getMessageUsecase.call(),
+        onData: (data) {
+          if (data is DataSuccess) {
+            print('data success ${data.data!.length}');
+            return state.copyWith(
+                newGetMessageStatus: GetMessageDone(messages: data.data!));
+          } else {
+            return state.copyWith(
+                newGetMessageStatus: GetMessageFaild(error: data.error!));
+          }
+        },
+      );
     });
 
     on<SendMessage>((event, emit) {
-      emit(MessageState(sendMessageStatus: SendMessageLoading()));
-      DataState state = sendMessageUsecase.call(event.messageContent);
-      if (state is DataSuccess) {
-        emit(MessageState(sendMessageStatus: SendMessageDone()));
+      emit(state.copyWith(newSendMessageStatus: SendMessageLoading()));
+      DataState dataState = sendMessageUsecase.call(event.messageContent);
+      if (dataState is DataSuccess) {
+        emit(state.copyWith(newSendMessageStatus: SendMessageDone()));
       } else {
-        emit(MessageState(
-            sendMessageStatus: SendMessageFaild(error: state.error!)));
+        emit(state.copyWith(
+            newSendMessageStatus: SendMessageFaild(error: dataState.error!)));
       }
     });
   }

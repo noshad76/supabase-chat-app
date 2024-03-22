@@ -73,6 +73,6 @@ Future<void> initializeLocator() async {
   instance.registerSingleton<SendMessageUsecase>(
       SendMessageUsecase(messageRepository: instance()));
 
-  instance.registerSingleton<MessageBloc>(MessageBloc(
+  instance.registerFactory<MessageBloc>(() => MessageBloc(
       getMessageUsecase: instance(), sendMessageUsecase: instance()));
 }

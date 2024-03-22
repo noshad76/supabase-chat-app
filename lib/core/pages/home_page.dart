@@ -3,7 +3,6 @@ import 'package:chat_app/features/chat/presentation/screens/chat_page.dart';
 import 'package:chat_app/features/contacts/domain/entity/profile_entity.dart';
 import 'package:chat_app/features/contacts/presentation/bloc/bloc/contacts_bloc.dart';
 import 'package:chat_app/features/contacts/presentation/widgets/contacts_list_tile.dart';
-import 'package:chat_app/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -18,8 +17,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
-    instance<MessageBloc>().close();
-
     super.dispose();
   }
 
@@ -125,18 +122,18 @@ class _HomePageState extends State<HomePage> {
                   height: 5.h,
                 ),
                 SizedBox(
-                  height: 74.8.h,
+                  height: 73.8.h,
                   width: 85.w,
                   child: BlocBuilder<ContactsBloc, ContactsState>(
-                    builder: (context, state) {
-                      if (state is ContactsLoading) {
+                    builder: (context, contacState) {
+                      if (contacState is ContactsLoading) {
                         return const TabBarView(children: [
                           Center(child: CircularProgressIndicator()),
                           Center(child: CircularProgressIndicator()),
                           Center(child: CircularProgressIndicator())
                         ]);
-                      } else if (state is ContactsDone) {
-                        List<ProfileEntity> contactsDone = state.profiles;
+                      } else if (contacState is ContactsDone) {
+                        List<ProfileEntity> contactsDone = contacState.profiles;
 
                         return TabBarView(
                           children: <Widget>[

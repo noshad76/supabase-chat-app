@@ -1,14 +1,31 @@
 import 'package:chat_app/features/chat/presentation/bloc/bloc/get_message_status.dart';
 import 'package:chat_app/features/chat/presentation/bloc/bloc/message_bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:chat_app/features/chat/presentation/bloc/bloc/send_message_status.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   ChatPage({super.key});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
   final scrollController = ScrollController();
+
+  final TextEditingController textEditingController = TextEditingController();
+
+  submitMessage(BuildContext context, String messageContent) {
+    textEditingController.clear();
+    BlocProvider.of<MessageBloc>(context)
+        .add(SendMessage(messageContent: messageContent));
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +84,9 @@ class ChatPage extends StatelessWidget {
                       Row(
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                             icon: const Icon(
                               size: 30,
                               Icons.arrow_back,
@@ -120,71 +139,102 @@ class ChatPage extends StatelessWidget {
                           )
                         ],
                       ),
-                      BlocBuilder<MessageBloc, MessageState>(
+                      BlocConsumer<MessageBloc, MessageState>(
+                        listener: (context, state) {},
                         builder: (context, state) {
-                          MessageState messageState = state;
-                          if (messageState.getMessageStatus is GetMessageDone) {
+                          if (state.getMessageStatus is GetMessageDone) {
                             GetMessageDone messageDone =
                                 state.getMessageStatus as GetMessageDone;
+                            print(messageDone.messages.length);
                             return Expanded(
                               child: Align(
                                 alignment: Alignment.topCenter,
-                                child: ListView.separated(
-                                    shrinkWrap: true,
-                                    controller: scrollController,
-                                    reverse: true,
-                                    itemBuilder: (context, index) {
-                                      return Align(
-                                        alignment:
-                                            messageDone.messages[index].isMine
-                                                ? Alignment.centerRight
-                                                : Alignment.centerLeft,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: messageDone
-                                                    .messages[index].isMine
-                                                ? Colors.white
-                                                : const Color(0x007B70EE),
-                                            borderRadius: messageDone
-                                                    .messages[index].isMine
-                                                ? const BorderRadius.only(
-                                                    bottomLeft:
-                                                        Radius.circular(30),
-                                                    bottomRight:
-                                                        Radius.circular(30),
-                                                    topLeft:
-                                                        Radius.circular(30))
-                                                : const BorderRadius.only(
-                                                    bottomLeft:
-                                                        Radius.circular(30),
-                                                    bottomRight:
-                                                        Radius.circular(30),
-                                                    topRight:
-                                                        Radius.circular(30)),
-                                          ),
-                                          child: Text(
-                                            messageDone.messages[index].content,
-                                            style: TextStyle(
+                                child: Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: ListView.separated(
+                                      shrinkWrap: true,
+                                      controller: scrollController,
+                                      reverse: true,
+                                      itemBuilder: (context, index) {
+                                        return Align(
+                                          alignment:
+                                              messageDone.messages[index].isMine
+                                                  ? Alignment.centerRight
+                                                  : Alignment.centerLeft,
+                                          child: ConstrainedBox(
+                                            constraints: BoxConstraints(
+                                                minHeight: 30,
+                                                minWidth: 30,
+                                                maxWidth: 300),
+                                            child: Container(
+                                              decoration: BoxDecoration(
                                                 color: messageDone
                                                         .messages[index].isMine
-                                                    ? Theme.of(context)
-                                                        .primaryColor
-                                                    : Colors.white),
+                                                    ? Colors.white
+                                                    : Color.fromARGB(
+                                                        255, 123, 112, 238),
+                                                borderRadius: messageDone
+                                                        .messages[index].isMine
+                                                    ? const BorderRadius.only(
+                                                        bottomLeft:
+                                                            Radius.circular(25),
+                                                        bottomRight:
+                                                            Radius.circular(25),
+                                                        topLeft:
+                                                            Radius.circular(25))
+                                                    : const BorderRadius.only(
+                                                        bottomLeft:
+                                                            Radius.circular(25),
+                                                        bottomRight:
+                                                            Radius.circular(25),
+                                                        topRight:
+                                                            Radius.circular(
+                                                                25)),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 10),
+                                                child: Text(
+                                                  messageDone
+                                                      .messages[index].content,
+                                                  textAlign: messageDone
+                                                          .messages[index]
+                                                          .isMine
+                                                      ? TextAlign.end
+                                                      : TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 15,
+                                                      color: messageDone
+                                                              .messages[index]
+                                                              .isMine
+                                                          ? Theme.of(context)
+                                                              .primaryColor
+                                                          : Colors.white),
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(
-                                        height: 2.h,
-                                      );
-                                    },
-                                    itemCount: messageDone.messages.length),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox(
+                                          height: 2.h,
+                                        );
+                                      },
+                                      itemCount: messageDone.messages.length),
+                                ),
                               ),
                             );
                           } else {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                            return Expanded(
+                              child: const Center(
+                                  child: CircularProgressIndicator(
+                                color: Colors.white,
+                              )),
+                            );
                           }
                         },
                       ),
@@ -224,8 +274,9 @@ class ChatPage extends StatelessWidget {
                                       padding: EdgeInsets.only(left: 1.w),
                                       width: 48.w,
                                       height: 12.h,
-                                      child: const TextField(
-                                        decoration: InputDecoration(
+                                      child: TextField(
+                                        controller: textEditingController,
+                                        decoration: const InputDecoration(
                                             hintText: 'Message',
                                             hintStyle: TextStyle(fontSize: 16),
                                             border: OutlineInputBorder(
@@ -247,14 +298,54 @@ class ChatPage extends StatelessWidget {
                               width: 8.h,
                               decoration: const BoxDecoration(
                                   color: Colors.white, shape: BoxShape.circle),
-                              child: IconButton(
-                                  alignment: Alignment.center,
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.send_rounded,
-                                    color: Theme.of(context).primaryColor,
-                                    size: 3.5.h,
-                                  )),
+                              child: BlocConsumer<MessageBloc, MessageState>(
+                                listener: (context, state) {},
+                                builder: (context, state) {
+                                  if (state.sendMessageStatus
+                                      is SendMessageLoading) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (state.sendMessageStatus
+                                      is SendMessageDone) {
+                                    return IconButton(
+                                        alignment: Alignment.center,
+                                        onPressed: () {
+                                          submitMessage(context,
+                                              textEditingController.text);
+                                        },
+                                        icon: Icon(
+                                          Icons.send_rounded,
+                                          color: Theme.of(context).primaryColor,
+                                          size: 3.5.h,
+                                        ));
+                                  } else if (state.sendMessageStatus
+                                      is SendMessageFaild) {
+                                    return IconButton(
+                                        alignment: Alignment.center,
+                                        onPressed: () {
+                                          submitMessage(context,
+                                              textEditingController.text);
+                                        },
+                                        icon: Icon(
+                                          Icons.send_rounded,
+                                          color: Colors.red,
+                                          size: 3.5.h,
+                                        ));
+                                  } else {
+                                    return IconButton(
+                                        alignment: Alignment.center,
+                                        onPressed: () {
+                                          submitMessage(context,
+                                              textEditingController.text);
+                                        },
+                                        icon: Icon(
+                                          Icons.send_rounded,
+                                          color: Theme.of(context).primaryColor,
+                                          size: 3.5.h,
+                                        ));
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),

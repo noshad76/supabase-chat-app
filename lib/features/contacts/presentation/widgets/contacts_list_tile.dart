@@ -28,15 +28,16 @@ class ContactViewTiles extends StatelessWidget {
           SizedBox(
             width: 3.w,
           ),
-           Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 username,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
-              const Text('this is Subtitle',
+              const Text('last online recently',
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: Colors.black45,

@@ -107,6 +107,7 @@ class _SignupPageState extends State<LoginPage> {
                                     "you are logged in with \n ${loginDone.userCredential.user!.email}")));
                             BlocProvider.of<ContactsBloc>(context)
                                 .add(GetContacts());
+                                
                             Navigator.pushReplacement(context,
                                 MaterialPageRoute(
                               builder: (context) {
