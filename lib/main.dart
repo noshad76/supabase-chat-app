@@ -46,7 +46,7 @@ class MainApp extends StatelessWidget {
             title: 'Chat App',
             theme: ThemeClass.lightTheme,
             darkTheme: ThemeClass.darkTheme,
-            themeMode: ThemeMode.system,
+            themeMode: ThemeMode.light,
             home: const SignupPage(),
           );
         },
